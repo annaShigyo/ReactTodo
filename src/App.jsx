@@ -14,7 +14,6 @@ const App = () => {
   });
 
   const [todo, setTodo] = useState("");
-  const [doing, setDoing] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos))
@@ -32,7 +31,7 @@ const App = () => {
         {
           key: todos.length + Math.random(),
           text: todo.trim(),
-          doing: doing,
+          doing: false,
         }
       ]);
       setTodo("");
@@ -47,12 +46,11 @@ const App = () => {
   }
 
   const handleDoingChange = (key) => {
-    const targetTodo = todos.find((todo) => {
-      return todo.key === key;
-    })
-    targetTodo.doing = targetTodo.doing ? false : true;
-    console.log(targetTodo)
-  }
+    setTodos(todos.map(todo => {
+    return todo.key === key ? {...todo, doing: !todo.doing}: todo
+    }
+    ))
+      }
 
   return (
     <div className="App">
